@@ -32,7 +32,7 @@ public class RegexParser {
 	private static final char[] CLOSE_CHAR_CLASS = new char[] { CBRK };
 
 	private static final char DEFAULT_MIN_CHAR = (char) 0x0000;
-	private static final char DEFAULT_MAX_CHAR = (char) 0x00ff;
+	private static final char DEFAULT_MAX_CHAR = (char) 0xffff;
 
 	private Map<Character, CharNode> characterClasses;
 
