@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.amygdalum</groupId>
 	<artifactId>regexparser</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<licenses>
 		<license>
@@ -22,7 +22,7 @@
 		<connection>scm:git:git@github.com:almondtools/regexparser.git</connection>
 		<developerConnection>scm:git:git@github.com:almondtools/regexparser.git</developerConnection>
 		<url>git@github.com:almondtools/regexparser.git</url>
-		<tag>HEAD</tag>
+		<tag>regexparser-0.0.2</tag>
 	</scm>
 	<distributionManagement>
 		<snapshotRepository>
