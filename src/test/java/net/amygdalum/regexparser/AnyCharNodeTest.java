@@ -20,11 +20,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import net.amygdalum.regexparser.AnyCharNode;
-import net.amygdalum.regexparser.DefinedCharNode;
-import net.amygdalum.regexparser.RangeCharNode;
-import net.amygdalum.regexparser.RegexNodeVisitor;
-
 @RunWith(MockitoJUnitRunner.class)
 public class AnyCharNodeTest {
 

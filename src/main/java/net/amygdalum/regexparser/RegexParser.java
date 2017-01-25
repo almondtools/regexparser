@@ -1,5 +1,7 @@
 package net.amygdalum.regexparser;
 
+import static java.lang.Character.MAX_VALUE;
+import static java.lang.Character.MIN_VALUE;
 import static net.amygdalum.regexparser.RegexParserOption.DOT_ALL;
 
 import java.util.ArrayList;
@@ -31,8 +33,8 @@ public class RegexParser {
 	private static final char[] OPEN_LOOP = new char[] { OPT, STAR, PLUS, OBRC };
 	private static final char[] CLOSE_CHAR_CLASS = new char[] { CBRK };
 
-	private static final char DEFAULT_MIN_CHAR = (char) 0x0000;
-	private static final char DEFAULT_MAX_CHAR = (char) 0xffff;
+	private static final char DEFAULT_MIN_CHAR = MIN_VALUE;
+	private static final char DEFAULT_MAX_CHAR = MAX_VALUE;
 
 	private Map<Character, CharNode> characterClasses;
 

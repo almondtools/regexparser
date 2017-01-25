@@ -21,7 +21,7 @@ public class CharClassNode extends AbstractCharClassNode implements RegexNode {
 	public List<DefinedCharNode> toCharNodes() {
 		return charNodes;
 	}
-	
+
 	@Override
 	public CompClassNode invert(char min, char max) {
 		return new CompClassNode(charNodes, computeComplement(charNodes, min, max));
