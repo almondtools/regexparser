@@ -207,7 +207,7 @@ public class RegexParser {
 			}
 			AbstractCharClassNode charClassNode = new CharClassNode(toCharNodes(subNodes));
 			if (complement) {
-				charClassNode = charClassNode.invert(min, max);
+				charClassNode = charClassNode.invert(createDot().toCharNodes());
 			}
 			return charClassNode;
 		} else if (match(ESCAPE)) {
@@ -247,11 +247,7 @@ public class RegexParser {
 
 	private RegexNode parseLeaf() {
 		if (match(DOT)) {
-			if (DOT_ALL.in(options)) {
-				return AnyCharNode.dotAll(min, max);
-			} else {
-				return AnyCharNode.dotDefault(min, max);
-			}
+			return createDot();
 		} else if (match(OPAR)) {
 			RegexNode node = parseAlternatives();
 			if (!match(CPAR)) {
@@ -260,6 +256,14 @@ public class RegexParser {
 			return new GroupNode(node);
 		} else {
 			return new SingleCharNode(parseChar());
+		}
+	}
+
+	private AnyCharNode createDot() {
+		if (DOT_ALL.in(options)) {
+			return AnyCharNode.dotAll(min, max);
+		} else {
+			return AnyCharNode.dotDefault(min, max);
 		}
 	}
 

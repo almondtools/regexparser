@@ -28,8 +28,8 @@ public class SpecialCharClassNode extends AbstractCharClassNode {
 	}
 
 	@Override
-	public SpecialCharClassNode invert(char min, char max) {
-		return new SpecialCharClassNode(Character.toUpperCase(symbol), computeComplement(charNodes, min, max));
+	public SpecialCharClassNode invert(List<DefinedCharNode> allnodes) {
+		return new SpecialCharClassNode(Character.toUpperCase(symbol), computeComplement(charNodes, allnodes));
 	}
 
 	@Override

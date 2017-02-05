@@ -1,5 +1,7 @@
 package net.amygdalum.regexparser;
 
+import static java.util.Arrays.asList;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -22,7 +24,7 @@ public class CharClassBuilder {
 	
 	public CharClassBuilder add(SpecialCharClassNode specialCharClass) {
 		charClasses.put(specialCharClass.getSymbol(), specialCharClass);
-		SpecialCharClassNode invertedCharClass = specialCharClass.invert(min, max);
+		SpecialCharClassNode invertedCharClass = specialCharClass.invert(asList((DefinedCharNode) new RangeCharNode(min, max)));
 		charClasses.put(invertedCharClass.getSymbol(), invertedCharClass);
 		return this;
 	}

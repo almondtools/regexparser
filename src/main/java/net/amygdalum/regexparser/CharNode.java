@@ -4,6 +4,7 @@ import static net.amygdalum.util.text.CharUtils.after;
 import static net.amygdalum.util.text.CharUtils.before;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,29 +21,41 @@ public abstract class CharNode implements RegexNode {
 		}
 	}
 
-	public static List<DefinedCharNode> computeComplement(List<? extends DefinedCharNode> nodes, char min, char max) {
-		Collections.sort(nodes);
+	public static List<DefinedCharNode> computeComplement(List<? extends DefinedCharNode> nodes, List<DefinedCharNode> allnodes) {
 		List<DefinedCharNode> remainderNodes = new LinkedList<DefinedCharNode>();
-		char current = min;
-		for (DefinedCharNode node : nodes) {
-			char from = node.getFrom();
-			char to = node.getTo();
-			if (from > max || to < min) {
-				continue;
-			}
-			if (current + 1 == from) {
-				remainderNodes.add(new SingleCharNode(current));
-			} else if (current < from) {
-				remainderNodes.add(new RangeCharNode(current, before(from)).simplify());
-			}
-			current = after(to);
+		if (allnodes.isEmpty()) {
+			return remainderNodes;
 		}
-		if (current == max) {
-			remainderNodes.add(new SingleCharNode(current));
-		} else if (current == after(max)) {
-			// overflow from previous loop => do nothing
-		} else if (current < max) {
-			remainderNodes.add(new RangeCharNode(current, max).simplify());
+		Collections.sort(nodes);
+		Collections.sort(allnodes);
+		Iterator<DefinedCharNode> allnodeIterator = allnodes.iterator();
+		DefinedCharNode currentRange = allnodeIterator.next();
+		for (DefinedCharNode node : nodes) {
+			while (!node.cuts(currentRange) && allnodeIterator.hasNext()) {
+				remainderNodes.add(currentRange);
+				currentRange = allnodeIterator.next();
+			}
+			if (node.cuts(currentRange)) {
+				if (currentRange.getFrom() < node.getFrom()) {
+					remainderNodes.add(new RangeCharNode(currentRange.getFrom(), before(node.getFrom())));
+				}
+				if (node.getTo() < currentRange.getTo()) {
+					currentRange = new RangeCharNode(after(node.getTo()), currentRange.getTo());
+				} else if (allnodeIterator.hasNext()) {
+					currentRange = allnodeIterator.next();
+				} else {
+					currentRange = null;
+					break;
+				}
+			}
+		}
+		if (currentRange != null) {
+			remainderNodes.add(currentRange);
+		}
+		while (allnodeIterator.hasNext()) {
+			remainderNodes.add(currentRange);
+			currentRange = allnodeIterator.next();
+
 		}
 		return remainderNodes;
 	}

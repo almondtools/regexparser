@@ -11,6 +11,8 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -41,7 +43,7 @@ public class SpecialCharClassNodeTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testInvert() throws Exception {
-		assertThat(new SpecialCharClassNode('x', new SingleCharNode('e'), new SingleCharNode('f')).invert((char) 0, (char) 255).toCharNodes(), contains(
+		assertThat(new SpecialCharClassNode('x', new SingleCharNode('e'), new SingleCharNode('f')).invert(rangeCharNodes((char) 0, (char) 255)).toCharNodes(), contains(
 			reflectiveEqualTo((DefinedCharNode) new RangeCharNode((char) 0, before('e'))), 
 			reflectiveEqualTo((DefinedCharNode) new RangeCharNode(after('f'), (char) 255))));
 	}
@@ -72,6 +74,10 @@ public class SpecialCharClassNodeTest {
 	@Test
 	public void testToString() throws Exception {
 		assertThat(new SpecialCharClassNode('x', new SingleCharNode('d')).toString(), equalTo("\\x"));
+	}
+
+	private List<DefinedCharNode> rangeCharNodes(char from, char to) {
+		return new RangeCharNode(from, to).toCharNodes();
 	}
 
 }

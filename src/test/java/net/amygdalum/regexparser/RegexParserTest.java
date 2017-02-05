@@ -8,6 +8,8 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
+import java.util.List;
+
 import org.junit.Test;
 
 public class RegexParserTest {
@@ -99,9 +101,9 @@ public class RegexParserTest {
 		RegexNode node = parser.parse();
 
 		assertThat(node, reflectiveEqualTo((RegexNode) new SpecialCharClassNode('W')).excluding("charNodes"));
-		assertThat(((SpecialCharClassNode) node).invert(MIN_VALUE, MAX_VALUE).toCharNodes(), hasItem(reflectiveEqualTo( new RangeCharNode('a','z'))));
-		assertThat(((SpecialCharClassNode) node).invert(MIN_VALUE, MAX_VALUE).toCharNodes(), hasItem(reflectiveEqualTo( new RangeCharNode('A','Z'))));
-		assertThat(((SpecialCharClassNode) node).invert(MIN_VALUE, MAX_VALUE).toCharNodes(), hasItem(reflectiveEqualTo( new RangeCharNode('0','9'))));
+		assertThat(((SpecialCharClassNode) node).invert(anyCharNodes()).toCharNodes(), hasItem(reflectiveEqualTo( new RangeCharNode('a','z'))));
+		assertThat(((SpecialCharClassNode) node).invert(anyCharNodes()).toCharNodes(), hasItem(reflectiveEqualTo( new RangeCharNode('A','Z'))));
+		assertThat(((SpecialCharClassNode) node).invert(anyCharNodes()).toCharNodes(), hasItem(reflectiveEqualTo( new RangeCharNode('0','9'))));
 	}
 
 	@Test
@@ -119,7 +121,7 @@ public class RegexParserTest {
 		RegexNode node = parser.parse();
 
 		assertThat(node, reflectiveEqualTo((RegexNode) new SpecialCharClassNode('D')).excluding("charNodes"));
-		assertThat(((SpecialCharClassNode) node).invert(MIN_VALUE, MAX_VALUE).toCharNodes(), hasItem(reflectiveEqualTo( new RangeCharNode('0','9'))));
+		assertThat(((SpecialCharClassNode) node).invert(anyCharNodes()).toCharNodes(), hasItem(reflectiveEqualTo( new RangeCharNode('0','9'))));
 	}
 
 	@Test
@@ -191,7 +193,15 @@ public class RegexParserTest {
 		RegexParser parser = new RegexParser("[^e]");
 		RegexNode node = parser.parse();
 
-		assertThat(node, reflectiveEqualTo((RegexNode) new CharClassNode(new SingleCharNode('e')).invert(Character.MIN_VALUE, Character.MAX_VALUE)));
+		assertThat(node, reflectiveEqualTo((RegexNode) new CharClassNode(new SingleCharNode('e')).invert(AnyCharNode.dotDefault(MIN_VALUE, MAX_VALUE).toCharNodes())));
+	}
+
+	@Test
+	public void testCompCharClassForCharDotAll() throws Exception {
+		RegexParser parser = new RegexParser("[^e]", RegexParserOption.DOT_ALL);
+		RegexNode node = parser.parse();
+
+		assertThat(node, reflectiveEqualTo((RegexNode) new CharClassNode(new SingleCharNode('e')).invert(anyCharNodes())));
 	}
 
 	@Test
@@ -280,5 +290,9 @@ public class RegexParserTest {
 		RegexNode node = parser.parse();
 
 		assertThat(node, reflectiveEqualTo((RegexNode) BoundedLoopNode.bounded(new SingleCharNode('h'),2,6)));
+	}
+	
+	private List<DefinedCharNode> anyCharNodes() {
+		return new RangeCharNode(MIN_VALUE, MAX_VALUE).toCharNodes();
 	}
 }

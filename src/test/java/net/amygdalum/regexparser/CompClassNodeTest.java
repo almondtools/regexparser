@@ -10,6 +10,8 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -31,7 +33,8 @@ public class CompClassNodeTest {
 		assertThat(new CompClassNode(
 			asList((DefinedCharNode) new RangeCharNode((char) 0, 'd')),
 			asList((DefinedCharNode) new RangeCharNode('e', (char) 255)))
-			.toCharNodes(), contains(reflectiveEqualTo((DefinedCharNode) new RangeCharNode('e', (char) 255))));
+				.toCharNodes(),
+			contains(reflectiveEqualTo((DefinedCharNode) new RangeCharNode('e', (char) 255))));
 	}
 
 	@Test
@@ -39,8 +42,8 @@ public class CompClassNodeTest {
 		assertThat(new CompClassNode(
 			asList((DefinedCharNode) new RangeCharNode((char) 0, 'd')),
 			asList((DefinedCharNode) new RangeCharNode('e', (char) 255)))
-			.invert((char) 0, (char) 255).toCharNodes(), contains(
-			reflectiveEqualTo((DefinedCharNode) new RangeCharNode((char) 0, 'd'))));
+				.invert(rangeCharNodes((char) 0, (char) 255)).toCharNodes(),
+			contains(reflectiveEqualTo((DefinedCharNode) new RangeCharNode((char) 0, 'd'))));
 	}
 
 	@Test
@@ -50,7 +53,8 @@ public class CompClassNodeTest {
 		assertThat(new CompClassNode(
 			asList((DefinedCharNode) new RangeCharNode((char) 0, 'd')),
 			asList((DefinedCharNode) new RangeCharNode('e', (char) 255)))
-			.accept(visitor), equalTo("success"));
+				.accept(visitor),
+			equalTo("success"));
 	}
 
 	@Test
@@ -78,6 +82,10 @@ public class CompClassNodeTest {
 		assertThat(new CompClassNode(
 			asList((DefinedCharNode) new RangeCharNode((char) 0, 'd')),
 			asList((DefinedCharNode) new RangeCharNode('e', (char) 255))).toString(), equalTo("[^\\u0000-d]"));
+	}
+
+	private List<DefinedCharNode> rangeCharNodes(char from, char to) {
+		return new RangeCharNode(from, to).toCharNodes();
 	}
 
 }

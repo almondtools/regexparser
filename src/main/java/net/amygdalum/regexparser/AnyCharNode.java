@@ -28,7 +28,7 @@ public class AnyCharNode extends CharNode {
 		return computeComplement(asList(new SingleCharNode('\n'),
 			new SingleCharNode('\r'),
 			new SingleCharNode('\u0085'),
-			new RangeCharNode('\u2028', '\u2029')), min, max).toArray(new DefinedCharNode[0]);
+			new RangeCharNode('\u2028', '\u2029')), asList((DefinedCharNode) new RangeCharNode(min, max))).toArray(new DefinedCharNode[0]);
 	}
 
 	@Override
