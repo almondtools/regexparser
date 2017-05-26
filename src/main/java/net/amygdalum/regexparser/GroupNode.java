@@ -3,13 +3,28 @@ package net.amygdalum.regexparser;
 public class GroupNode implements RegexNode {
 
 	private RegexNode subNode;
+	private int groupNumber;
 
 	public GroupNode(RegexNode subNode) {
 		this.subNode = subNode;
+		this.groupNumber = 0;
+	}
+	
+	public GroupNode(RegexNode subNode, int groupNumber) {
+		this.subNode = subNode;
+		this.groupNumber = groupNumber;
 	}
 
 	public RegexNode getSubNode() {
 		return subNode;
+	}
+
+	public boolean isCapturingGroup(){
+		return groupNumber > 0;
+	}
+
+	public int getGroupNumber() {
+		return groupNumber;
 	}
 
 	@Override
@@ -22,6 +37,7 @@ public class GroupNode implements RegexNode {
 		try {
 			GroupNode clone = (GroupNode) super.clone();
 			clone.subNode = subNode.clone();
+			clone.groupNumber = groupNumber;
 			return clone;
 		} catch (CloneNotSupportedException e) {
 			return null;

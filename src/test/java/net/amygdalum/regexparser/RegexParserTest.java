@@ -6,7 +6,9 @@ import static java.lang.Character.MIN_VALUE;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
@@ -233,7 +235,42 @@ public class RegexParserTest {
 		RegexParser parser = new RegexParser("(B)");
 		RegexNode node = parser.parse();
 
+		assertThat(node, reflectiveEqualTo((RegexNode) new GroupNode(new SingleCharNode('B'), 1)));
+	}
+
+	@Test
+	public void testCapturingGroup() throws Exception {
+		GroupNode ncg = new GroupNode(new SingleCharNode('C'),1);
+		assertThat(ncg.isCapturingGroup(), equalTo(true));
+	}
+	
+	@Test
+	public void testGroupNumber() throws Exception {		
+		RegexParser parser = new RegexParser("((A)(B(C)))");
+		GroupNode group1 = (GroupNode)parser.parse();
+		assertEquals(1, group1.getGroupNumber());
+
+		ConcatNode cn = (ConcatNode)group1.getSubNode();
+		GroupNode group2 = (GroupNode)cn.getSubNodes().get(0);
+		assertEquals(2, group2.getGroupNumber());
+
+		GroupNode group3 = (GroupNode)cn.getSubNodes().get(1);
+		assertEquals(3, group3.getGroupNumber());
+
+		cn = (ConcatNode)group3.getSubNode();
+		GroupNode group4 = (GroupNode)cn.getSubNodes().get(1);
+		assertEquals(4, group4.getGroupNumber());
+	}
+
+	@Test
+	public void testNotCapturingGroup() throws Exception {
+		RegexParser parser = new RegexParser("(?:B)");
+		RegexNode node = parser.parse();
+
 		assertThat(node, reflectiveEqualTo((RegexNode) new GroupNode(new SingleCharNode('B'))));
+
+		GroupNode ncg = new GroupNode(new SingleCharNode('C'));
+		assertThat(ncg.isCapturingGroup(), equalTo(false));
 	}
 
 	@Test
@@ -241,7 +278,7 @@ public class RegexParserTest {
 		RegexParser parser = new RegexParser("a(B)");
 		RegexNode node = parser.parse();
 
-		assertThat(node, reflectiveEqualTo((RegexNode) ConcatNode.inSequence(new SingleCharNode('a'), new GroupNode(new SingleCharNode('B')))));
+		assertThat(node, reflectiveEqualTo((RegexNode) ConcatNode.inSequence(new SingleCharNode('a'), new GroupNode(new SingleCharNode('B'),1))));
 	}
 
 	@Test
