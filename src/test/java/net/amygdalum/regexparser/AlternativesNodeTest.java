@@ -7,19 +7,13 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import net.amygdalum.regexparser.AlternativesNode;
-import net.amygdalum.regexparser.EmptyNode;
-import net.amygdalum.regexparser.RegexNode;
-import net.amygdalum.regexparser.RegexNodeVisitor;
-import net.amygdalum.regexparser.SingleCharNode;
 
 
 @RunWith(MockitoJUnitRunner.class)
