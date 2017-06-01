@@ -32,6 +32,7 @@ public class RegexParser {
 	private static final char[] BREAK_CONCAT = new char[] { OR, AND, CPAR };
 	private static final char[] OPEN_LOOP = new char[] { OPT, STAR, PLUS, OBRC };
 	private static final char[] CLOSE_CHAR_CLASS = new char[] { CBRK };
+	private static final char[] NOT_CAPTURING_GROUP = new char[] { '?', ':' };
 
 	private static final char DEFAULT_MIN_CHAR = MIN_VALUE;
 	private static final char DEFAULT_MAX_CHAR = MAX_VALUE;
@@ -40,6 +41,7 @@ public class RegexParser {
 
 	private String pattern;
 	private int pos;
+	private int groupNumber;
 
 	private char min;
 	private char max;
@@ -55,6 +57,7 @@ public class RegexParser {
 		this.max = max;
 		this.options = options;
 		this.pos = 0;
+		this.groupNumber = 0;
 		this.characterClasses = new CharClassBuilder(min, max)
 			.add('t', new SingleCharNode('\t'))
 			.add('n', new SingleCharNode('\n'))
@@ -115,6 +118,21 @@ public class RegexParser {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	private boolean match(char[] chars) {
+		int finalPos = pos + chars.length; 
+		if (finalPos >= pattern.length()) {
+			return false;
+		} else {			
+			for (int i = 0; i < chars.length; i++) {
+				char current = pattern.charAt(pos + i);
+				if(current != chars[i])return false;
+			}
+
+			pos = finalPos;
+			return true;
 		}
 	}
 
@@ -249,11 +267,19 @@ public class RegexParser {
 		if (match(DOT)) {
 			return createDot();
 		} else if (match(OPAR)) {
+			boolean notCapturing = match(NOT_CAPTURING_GROUP);
+			if(!notCapturing)this.groupNumber++;
+			int gn = this.groupNumber;
+
 			RegexNode node = parseAlternatives();
 			if (!match(CPAR)) {
 				throw new RegexCompileException(pattern, pos, ")");
 			}
-			return new GroupNode(node);
+			if(notCapturing){
+				return new GroupNode(node);
+			}else{
+				return new GroupNode(node, gn);				
+			}
 		} else {
 			return new SingleCharNode(parseChar());
 		}
