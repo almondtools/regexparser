@@ -58,4 +58,14 @@ The syntax of the recognized regular expressions could be characterized by follo
 | *References*            | *not supported*                                                      |
 | *Anchors*               | *not supported*                                                      |
 | *Flags*                 | *not supported*                                                      |
-  
+
+Maven Dependency
+================
+
+```xml
+<dependency>
+    <groupId>net.amygdalum</groupId>
+    <artifactId>stringsearchalgorithms</artifactId>
+    <version>0.3.19</version>
+</dependency>
+```
