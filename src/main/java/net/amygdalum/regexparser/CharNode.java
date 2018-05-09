@@ -49,13 +49,12 @@ public abstract class CharNode implements RegexNode {
 				}
 			}
 		}
-		if (currentRange != null) {
-			remainderNodes.add(currentRange);
-		}
 		while (allnodeIterator.hasNext()) {
 			remainderNodes.add(currentRange);
 			currentRange = allnodeIterator.next();
-
+		}
+		if (currentRange != null) {
+			remainderNodes.add(currentRange);
 		}
 		return remainderNodes;
 	}
