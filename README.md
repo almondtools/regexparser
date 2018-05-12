@@ -65,7 +65,7 @@ Maven Dependency
 ```xml
 <dependency>
     <groupId>net.amygdalum</groupId>
-    <artifactId>stringsearchalgorithms</artifactId>
-    <version>0.3.19</version>
+    <artifactId>regexparser</artifactId>
+    <version>0.1.0</version>
 </dependency>
 ```
