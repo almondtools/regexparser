@@ -44,7 +44,7 @@ public class StringNode implements RegexNode, JoinableNode {
 
 	@Override
 	public String toString() {
-		return value.toString();
+		return value;
 	}
 
 }
