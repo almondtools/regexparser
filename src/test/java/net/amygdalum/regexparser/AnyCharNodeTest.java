@@ -1,6 +1,6 @@
 package net.amygdalum.regexparser;
 
-import static com.almondtools.conmatch.conventions.ReflectiveEqualsMatcher.reflectiveEqualTo;
+import static net.amygdalum.extensions.hamcrest.objects.ReflectiveEqualsMatcher.reflectiveEqualTo;
 import static java.lang.Character.MAX_VALUE;
 import static java.lang.Character.MIN_VALUE;
 import static net.amygdalum.regexparser.AnyCharNode.dotAll;

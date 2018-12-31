@@ -1,6 +1,6 @@
 package net.amygdalum.regexparser;
 
-import static com.almondtools.conmatch.conventions.ReflectiveEqualsMatcher.reflectiveEqualTo;
+import static net.amygdalum.extensions.hamcrest.objects.ReflectiveEqualsMatcher.reflectiveEqualTo;
 import static net.amygdalum.regexparser.ConcatNode.inSequence;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;

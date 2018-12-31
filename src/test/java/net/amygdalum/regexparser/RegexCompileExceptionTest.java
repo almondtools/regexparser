@@ -1,6 +1,6 @@
 package net.amygdalum.regexparser;
 
-import static com.almondtools.conmatch.exceptions.ExceptionMatcher.matchesException;
+import static net.amygdalum.extensions.hamcrest.exceptions.ExceptionMatcher.matchesException;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;

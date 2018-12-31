@@ -1,6 +1,6 @@
 package net.amygdalum.regexparser;
 
-import static com.almondtools.conmatch.conventions.ReflectiveEqualsMatcher.reflectiveEqualTo;
+import static net.amygdalum.extensions.hamcrest.objects.ReflectiveEqualsMatcher.reflectiveEqualTo;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
@@ -34,9 +34,8 @@ public class CharNodeTest {
 			match('\u202a', '\uffff')));
 	}
 
-	@SuppressWarnings("unchecked")
 	private Matcher<DefinedCharNode> match(char from, char to) {
-		return (Matcher<DefinedCharNode>) reflectiveEqualTo(new RangeCharNode(from, to));
+		return reflectiveEqualTo((DefinedCharNode) new RangeCharNode(from, to));
 	}
 
 	private List<DefinedCharNode> charNodes(DefinedCharNode... nodes) {
