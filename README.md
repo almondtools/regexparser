@@ -1,7 +1,7 @@
 RegexParser
 ===========
 [![Build Status](https://api.travis-ci.org/almondtools/regexparser.svg)](https://travis-ci.org/almondtools/regexparser)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f0c7c7d7f71844cca78b10c956a1f2b4)](https://www.codacy.com/project/almondtools/regexparser/dashboard?utm_source=github.com&utm_medium=referral&utm_content=almondtools/regexparser&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f0c7c7d7f71844cca78b10c956a1f2b4)](https://app.codacy.com/gh/almondtools/regexparser/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 RegexParser is a handwritten parser for (deterministic) regular expressions. Deterministic means, that the regular expression language can be compiled to a deterministic finite automaton (the default java regular expressions are more powerful).
 
